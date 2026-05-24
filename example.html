@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jayce Garcia — Full-Stack Developer</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #F5F5F5; }
+    ::-webkit-scrollbar-thumb { background: #EA580C; border-radius: 4px; }
+    html { scroll-behavior: smooth; }
+
+    .grid-bg {
+      background-image: linear-gradient(#171717 1px, transparent 1px), linear-gradient(90deg, #171717 1px, transparent 1px);
+      background-size: 40px 40px;
+      opacity: 0.03;
+    }
+    .dark-grid-bg {
+      background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(-20px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes countUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+    .animate-float { animation: float 6s ease-in-out infinite; }
+    .animate-fade-in-up { animation: fadeInUp 0.7s ease-out forwards; }
+    .animate-slide-in { animation: slideIn 0.5s ease-out forwards; }
+    .animate-pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+
+    .stagger-1 { animation-delay: 0.1s; }
+    .stagger-2 { animation-delay: 0.2s; }
+    .stagger-3 { animation-delay: 0.3s; }
+    .stagger-4 { animation-delay: 0.4s; }
+    .stagger-5 { animation-delay: 0.5s; }
+    .stagger-6 { animation-delay: 0.6s; }
+
+    .case-study-card { transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .case-study-card:hover { transform: translateY(-8px); }
+    .case-study-card:hover .card-image { transform: scale(1.05); }
+    .case-study-card:hover .card-arrow { transform: translate(4px, -4px); }
+    .case-study-card:hover .card-tag { background: #EA580C; color: white; border-color: #EA580C; }
+
+    .card-image { transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-arrow { transition: transform 0.3s ease; }
+    .card-tag { transition: all 0.3s ease; }
+
+    .filter-btn { transition: all 0.3s ease; }
+    .filter-btn.active { background: #171717; color: white; }
+    .filter-btn:not(.active):hover { background: #F5F5F5; }
+
+    .project-hidden { display: none; }
+    .project-visible { display: block; animation: fadeInUp 0.5s ease-out forwards; }
+
+    .modal-overlay { transition: opacity 0.3s ease; }
+    .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+
+    .skill-bar-fill { transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #EA580C;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after, .nav-link.active::after { width: 100%; }
+
+    .stat-card { transition: all 0.3s ease; }
+    .stat-card:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -12px rgba(0,0,0,0.15); }
+
+    .testimonial-card { transition: all 0.3s ease; }
+    .testimonial-card:hover { transform: translateY(-4px); }
+  </style>
+</head>
+<body class="font-sans bg-white text-neutral-900">
+
+  <!-- Navigation -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 h-20 flex items-center transition-all duration-300" style="background: rgba(255,255,255,0.9); backdrop-filter: blur(8px);">
+    <div class="max-w-screen-2xl mx-auto w-full px-6 flex items-center justify-between">
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="w-4 h-4 bg-orange-600 group-hover:rotate-45 transition-transform duration-300"></div>
+        <span class="text-lg font-semibold tracking-tight">jayce.garcia</span>
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#projects" class="nav-link text-xs font-medium uppercase tracking-widest text-neutral-500 hover:text-neutral-900 transition-colors">Projects</a>
+        <a href="#case-studies" class="nav-link text-xs font-medium uppercase tracking-widest text-neutral-500 hover:text-neutral-900 transition-colors">Case Studies</a>
+        <a href="#about" class="nav-link text-xs font-medium uppercase tracking-widest text-neutral-500 hover:text-neutral-900 transition-colors">About</a>
+        <a href="#testimonials" class="nav-link text-xs font-medium uppercase tracking-widest text-neutral-500 hover:text-neutral-900 transition-colors">Testimonials</a>
+        <a href="#contact" class="inline-flex items-center gap-2 bg-neutral-900 text-white text-xs font-medium uppercase tracking-widest px-6 py-3 hover:bg-orange-600 transition-colors duration-300">
+          Let's Talk
+          <iconify-icon icon="lucide:arrow-right" width="14"></iconify-icon>
+        </a>
+      </div>
+      <button id="mobile-toggle" class="md:hidden p-2">
+        <iconify-icon icon="lucide:menu" width="24"></iconify-icon>
+      </button>
+    </div>
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden absolute top-20 left-0 right-0 bg-white border-b border-neutral-200 md:hidden">
+      <div class="px-6 py-6 flex flex-col gap-4">
+        <a href="#projects" class="text-sm font-medium text-neutral-600 hover:text-orange-600 transition-colors mobile-link">Projects</a>
+        <a href="#case-studies" class="text-sm font-medium text-neutral-600 hover:text-orange-600 transition-colors mobile-link">Case Studies</a>
+        <a href="#about" class="text-sm font-medium text-neutral-600 hover:text-orange-600 transition-colors mobile-link">About</a>
+        <a href="#testimonials" class="text-sm font-medium text-neutral-600 hover:text-orange-600 transition-colors mobile-link">Testimonials</a>
+        <a href="#contact" class="inline-flex items-center justify-center gap-2 bg-neutral-900 text-white text-sm font-medium px-6 py-3 mt-2 mobile-link">Let's Talk</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero" class="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
+    <div class="absolute inset-0 grid-bg pointer-events-none"></div>
+    <div class="max-w-screen-2xl mx-auto px-6 relative">
+      <div class="grid grid-cols-12 gap-8 lg:gap-16 items-center">
+        <div class="col-span-12 lg:col-span-7">
+          <div class="flex items-center gap-3 mb-8 animate-fade-in-up">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse-dot"></span>
+            <span class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Available for new projects</span>
+          </div>
+          <h1 class="text-5xl md:text-7xl lg:text-8xl font-semibold leading-[0.9] tracking-tighter mb-8 animate-fade-in-up stagger-1" style="opacity:0;">
+            Full-Stack<br>
+            <span class="text-neutral-400">Engineer</span><br>
+            & <span class="text-orange-600">Builder</span>
+          </h1>
+          <p class="text-lg md:text-xl font-light leading-relaxed text-neutral-500 max-w-xl mb-10 animate-fade-in-up stagger-2" style="opacity:0;">
+            I design and build scalable SaaS products, mobile applications, and complex web platforms that solve real business problems.
+          </p>
+          <div class="flex flex-wrap gap-4 animate-fade-in-up stagger-3" style="opacity:0;">
+            <a href="#projects" class="inline-flex items-center gap-2 bg-neutral-900 text-white text-xs font-medium uppercase tracking-widest px-8 py-4 hover:bg-orange-600 transition-colors duration-300">
+              View Projects
+              <iconify-icon icon="lucide:arrow-down-right" width="14"></iconify-icon>
+            </a>
+            <a href="#about" class="inline-flex items-center gap-2 border border-neutral-300 text-neutral-900 text-xs font-medium uppercase tracking-widest px-8 py-4 hover:border-orange-600 hover:text-orange-600 transition-colors duration-300">
+              About Me
+            </a>
+          </div>
+        </div>
+        <div class="col-span-12 lg:col-span-5 relative" style="opacity:0; animation: fadeInUp 0.7s ease-out 0.4s forwards;">
+          <div class="relative">
+            <div class="aspect-[3/4] bg-neutral-100 overflow-hidden border border-neutral-200">
+              <img src="https://picsum.photos/seed/jayce-garcia-portrait/600/800.jpg" alt="Jayce Garcia" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000">
+            </div>
+            <div class="absolute -bottom-6 -left-6 bg-white border border-neutral-200 p-6 shadow-lg animate-float">
+              <div class="text-4xl font-light tracking-tighter text-orange-600">8+</div>
+              <div class="text-xs font-medium uppercase tracking-widest text-neutral-500 mt-1">Years Exp.</div>
+            </div>
+            <div class="absolute -top-4 -right-4 bg-orange-600 text-white p-4 animate-float" style="animation-delay: 1s;">
+              <iconify-icon icon="lucide:code-2" width="24"></iconify-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="border-y border-neutral-200 bg-neutral-50">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4">
+        <div class="stat-card p-8 md:p-12 text-center border-r border-neutral-200">
+          <div class="text-4xl md:text-5xl font-light tracking-tighter text-neutral-900">40+</div>
+          <div class="text-xs font-semibold uppercase tracking-widest text-neutral-500 mt-2">Projects Delivered</div>
+        </div>
+        <div class="stat-card p-8 md:p-12 text-center md:border-r border-neutral-200">
+          <div class="text-4xl md:text-5xl font-light tracking-tighter text-neutral-900">12</div>
+          <div class="text-xs font-semibold uppercase tracking-widest text-neutral-500 mt-2">SaaS Products</div>
+        </div>
+        <div class="stat-card p-8 md:p-12 text-center border-r border-neutral-200 border-t md:border-t-0">
+          <div class="text-4xl md:text-5xl font-light tracking-tighter text-neutral-900">8</div>
+          <div class="text-xs font-semibold uppercase tracking-widest text-neutral-500 mt-2">Mobile Apps</div>
+        </div>
+        <div class="stat-card p-8 md:p-12 text-center border-t md:border-t-0">
+          <div class="text-4xl md:text-5xl font-light tracking-tighter text-orange-600">2M+</div>
+          <div class="text-xs font-semibold uppercase tracking-widest text-neutral-500 mt-2">Users Impacted</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" class="py-24 md:py-32">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-4 block">Selected Work</span>
+          <h2 class="text-4xl md:text-5xl font-semibold leading-tight tracking-tighter">Featured Projects</h2>
+        </div>
+        <div class="flex flex-wrap gap-2">
+          <button class="filter-btn active text-xs font-medium uppercase tracking-widest px-4 py-2 border border-neutral-300" data-filter="all">All</button>
+          <button class="filter-btn text-xs font-medium uppercase tracking-widest px-4 py-2 border border-neutral-300 text-neutral-500" data-filter="saas">SaaS</button>
+          <button class="filter-btn text-xs font-medium uppercase tracking-widest px-4 py-2 border border-neutral-300 text-neutral-500" data-filter="mobile">Mobile</button>
+          <button class="filter-btn text-xs font-medium uppercase tracking-widest px-4 py-2 border border-neutral-300 text-neutral-500" data-filter="platform">Platform</button>
+          <button class="filter-btn text-xs font-medium uppercase tracking-widest px-4 py-2 border border-neutral-300 text-neutral-500" data-filter="ai">AI/ML</button>
+        </div>
+      </div>
+
+      <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Project 1: SaaS -->
+        <div class="case-study-card project-visible border border-neutral-200 group cursor-pointer" data-category="saas" onclick="openModal('modal-1')">
+          <div class="overflow-hidden">
+            <img src="https://picsum.photos/seed/saas-dashboard-analytics/800/500.jpg" alt="FlowMetrics" class="card-image w-full h-64 md:h-80 object-cover">
+          </div>
+          <div class="p-8 md:p-10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex gap-2">
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">SaaS</span>
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">Analytics</span>
+              </div>
+              <div class="card-arrow">
+                <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-neutral-400 group-hover:text-orange-600 transition-colors"></iconify-icon>
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold tracking-tight mb-3">FlowMetrics</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed mb-6">Real-time analytics platform for SaaS companies. Automated reporting, cohort analysis, and revenue forecasting with sub-second query times.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Next.js</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Go</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">ClickHouse</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Kafka</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 2: Mobile -->
+        <div class="case-study-card project-visible border border-neutral-200 group cursor-pointer" data-category="mobile" onclick="openModal('modal-2')">
+          <div class="overflow-hidden">
+            <img src="https://picsum.photos/seed/mobile-health-app/800/500.jpg" alt="PulseCare" class="card-image w-full h-64 md:h-80 object-cover">
+          </div>
+          <div class="p-8 md:p-10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex gap-2">
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">Mobile</span>
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">HealthTech</span>
+              </div>
+              <div class="card-arrow">
+                <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-neutral-400 group-hover:text-orange-600 transition-colors"></iconify-icon>
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold tracking-tight mb-3">PulseCare</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed mb-6">Cross-platform health monitoring app with real-time vitals tracking, telemedicine integration, and AI-powered health insights for 500K+ users.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">React Native</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Node.js</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">PostgreSQL</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">WebSocket</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 3: Platform -->
+        <div class="case-study-card project-visible border border-neutral-200 group cursor-pointer" data-category="platform" onclick="openModal('modal-3')">
+          <div class="overflow-hidden">
+            <img src="https://picsum.photos/seed/marketplace-platform/800/500.jpg" alt="VendorHub" class="card-image w-full h-64 md:h-80 object-cover">
+          </div>
+          <div class="p-8 md:p-10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex gap-2">
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">Platform</span>
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">Marketplace</span>
+              </div>
+              <div class="card-arrow">
+                <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-neutral-400 group-hover:text-orange-600 transition-colors"></iconify-icon>
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold tracking-tight mb-3">VendorHub</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed mb-6">Multi-vendor marketplace platform handling $15M+ GMV. Built with real-time inventory, multi-tenant architecture, and automated fulfillment pipelines.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">TypeScript</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">NestJS</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">AWS</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Elasticsearch</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 4: AI/ML -->
+        <div class="case-study-card project-visible border border-neutral-200 group cursor-pointer" data-category="ai" onclick="openModal('modal-4')">
+          <div class="overflow-hidden">
+            <img src="https://picsum.photos/seed/ai-writing-tool/800/500.jpg" alt="CopyForge" class="card-image w-full h-64 md:h-80 object-cover">
+          </div>
+          <div class="p-8 md:p-10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex gap-2">
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">AI/ML</span>
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">SaaS</span>
+              </div>
+              <div class="card-arrow">
+                <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-neutral-400 group-hover:text-orange-600 transition-colors"></iconify-icon>
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold tracking-tight mb-3">CopyForge</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed mb-6">AI-powered content generation platform with custom model fine-tuning, brand voice consistency, and multi-channel publishing workflow automation.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Python</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">FastAPI</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">OpenAI</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">React</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 5: Mobile -->
+        <div class="case-study-card project-visible border border-neutral-200 group cursor-pointer" data-category="mobile" onclick="openModal('modal-5')">
+          <div class="overflow-hidden">
+            <img src="https://picsum.photos/seed/fintech-mobile-app/800/500.jpg" alt="PaySplit" class="card-image w-full h-64 md:h-80 object-cover">
+          </div>
+          <div class="p-8 md:p-10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex gap-2">
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">Mobile</span>
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">FinTech</span>
+              </div>
+              <div class="card-arrow">
+                <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-neutral-400 group-hover:text-orange-600 transition-colors"></iconify-icon>
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold tracking-tight mb-3">PaySplit</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed mb-6">Peer-to-peer payment app with bill splitting, expense tracking, and social payment features. Processed $8M+ in transactions within first year.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Flutter</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Dart</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Go</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Stripe</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project 6: SaaS -->
+        <div class="case-study-card project-visible border border-neutral-200 group cursor-pointer" data-category="saas" onclick="openModal('modal-6')">
+          <div class="overflow-hidden">
+            <img src="https://picsum.photos/seed/devops-ci-cd-tool/800/500.jpg" alt="ShipFast" class="card-image w-full h-64 md:h-80 object-cover">
+          </div>
+          <div class="p-8 md:p-10">
+            <div class="flex items-center justify-between mb-4">
+              <div class="flex gap-2">
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">SaaS</span>
+                <span class="card-tag text-[10px] font-semibold uppercase tracking-widest px-3 py-1 border border-neutral-200 text-neutral-500">DevTools</span>
+              </div>
+              <div class="card-arrow">
+                <iconify-icon icon="lucide:arrow-up-right" width="20" class="text-neutral-400 group-hover:text-orange-600 transition-colors"></iconify-icon>
+              </div>
+            </div>
+            <h3 class="text-2xl font-semibold tracking-tight mb-3">ShipFast</h3>
+            <p class="text-sm text-neutral-500 leading-relaxed mb-6">CI/CD orchestration platform with visual pipeline builder, canary deployments, and rollback automation. Used by 200+ engineering teams.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Rust</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">React</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">Kubernetes</span>
+              <span class="text-[10px] font-mono text-neutral-400 bg-neutral-50 px-2 py-1">gRPC</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Case Studies Deep Dive -->
+  <section id="case-studies" class="py-24 md:py-32 bg-neutral-900 text-white relative overflow-hidden">
+    <div class="absolute inset-0 dark-grid-bg pointer-events-none"></div>
+    <div class="max-w-screen-2xl mx-auto px-6 relative">
+      <div class="text-center mb-20">
+        <span class="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-4 block">Deep Dives</span>
+        <h2 class="text-4xl md:text-5xl font-semibold leading-tight tracking-tighter mb-6">Case Studies</h2>
+        <p class="text-lg font-light text-neutral-400 max-w-2xl mx-auto leading-relaxed">A closer look at the problems I solved, the decisions I made, and the outcomes I delivered.</p>
+      </div>
+
+      <!-- Case Study 1 -->
+      <div class="border border-neutral-800 mb-8 group hover:border-neutral-700 transition-colors duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-2">
+          <div class="overflow-hidden">
+            <img src="https://picsum.photos/seed/casestudy-saas-flow/800/600.jpg" alt="FlowMetrics Case Study" class="w-full h-64 lg:h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000">
+          </div>
+          <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-500 px-3 py-1 border border-orange-600/30">SaaS</span>
+              <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">2024</span>
+            </div>
+            <h3 class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">How FlowMetrics cut query times by 94% and scaled to 10K customers</h3>
+            <p class="text-neutral-400 leading-relaxed mb-8">Built from the ground up as a real-time analytics engine, FlowMetrics needed to handle billions of events daily while keeping dashboard load times under 500ms. I architected a streaming pipeline using Kafka and ClickHouse that transformed their data infrastructure.</p>
+            <div class="grid grid-cols-3 gap-6 mb-8">
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">94%</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Faster Queries</div>
+              </div>
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">10K+</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Customers</div>
+              </div>
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">$4.2M</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">ARR</div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-8">
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Architecture Design</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Performance Optimization</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Data Engineering</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Team Leadership</span>
+            </div>
+            <button onclick="openModal('modal-1')" class="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-colors group/btn">
+              Read Full Case Study
+              <iconify-icon icon="lucide:arrow-right" width="14" class="group-hover/btn:translate-x-1 transition-transform"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Case Study 2 -->
+      <div class="border border-neutral-800 mb-8 group hover:border-neutral-700 transition-colors duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-2">
+          <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center order-2 lg:order-1">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-500 px-3 py-1 border border-orange-600/30">Mobile</span>
+              <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">2023</span>
+            </div>
+            <h3 class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">PulseCare: Building a HIPAA-compliant health app used by 500K patients</h3>
+            <p class="text-neutral-400 leading-relaxed mb-8">Navigating healthcare regulations while delivering a seamless mobile experience. I led the mobile architecture, designed the real-time vitals sync system, and built the telemedicine module that connected patients with 2,000+ providers.</p>
+            <div class="grid grid-cols-3 gap-6 mb-8">
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">500K</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Patients</div>
+              </div>
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">4.8★</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">App Store</div>
+              </div>
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">99.9%</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Uptime</div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-8">
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">HIPAA Compliance</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Real-Time Sync</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Offline-First</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Telemedicine</span>
+            </div>
+            <button onclick="openModal('modal-2')" class="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-colors group/btn">
+              Read Full Case Study
+              <iconify-icon icon="lucide:arrow-right" width="14" class="group-hover/btn:translate-x-1 transition-transform"></iconify-icon>
+            </button>
+          </div>
+          <div class="overflow-hidden order-1 lg:order-2">
+            <img src="https://picsum.photos/seed/casestudy-mobile-health/800/600.jpg" alt="PulseCare Case Study" class="w-full h-64 lg:h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000">
+          </div>
+        </div>
+      </div>
+
+      <!-- Case Study 3 -->
+      <div class="border border-neutral-800 group hover:border-neutral-700 transition-colors duration-300">
+        <div class="grid grid-cols-1 lg:grid-cols-2">
+          <div class="overflow-hidden">
+            <img src="https://picsum.photos/seed/casestudy-marketplace/800/600.jpg" alt="VendorHub Case Study" class="w-full h-64 lg:h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000">
+          </div>
+          <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+            <div class="flex items-center gap-3 mb-6">
+              <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-500 px-3 py-1 border border-orange-600/30">Platform</span>
+              <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">2023</span>
+            </div>
+            <h3 class="text-3xl md:text-4xl font-semibold tracking-tight mb-6">VendorHub: Scaling a marketplace from $0 to $15M GMV in 18 months</h3>
+            <p class="text-neutral-400 leading-relaxed mb-8">Designed the multi-tenant architecture that allowed VendorHub to onboard 5,000+ vendors while maintaining consistent sub-200ms response times. Built the automated fulfillment system that reduced order processing from hours to minutes.</p>
+            <div class="grid grid-cols-3 gap-6 mb-8">
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">$15M</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">GMV</div>
+              </div>
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">5K+</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Vendors</div>
+              </div>
+              <div>
+                <div class="text-2xl font-light tracking-tighter text-orange-500">180ms</div>
+                <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Avg Response</div>
+              </div>
+            </div>
+            <div class="flex flex-wrap gap-2 mb-8">
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Multi-Tenant</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Microservices</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Payment Processing</span>
+              <span class="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1">Search Engine</span>
+            </div>
+            <button onclick="openModal('modal-3')" class="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-colors group/btn">
+              Read Full Case Study
+              <iconify-icon icon="lucide:arrow-right" width="14" class="group-hover/btn:translate-x-1 transition-transform"></iconify-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="py-24 md:py-32">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+        <div>
+          <span class="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-4 block">About</span>
+          <h2 class="text-4xl md:text-5xl font-semibold leading-tight tracking-tighter mb-8">Engineering with intention</h2>
+          <div class="space-y-6 text-neutral-500 leading-relaxed">
+            <p>I'm a full-stack software engineer based in San Francisco with 9+ years of experience building products that scale. I've worked with early-stage startups and growth-stage companies, turning complex business requirements into elegant, maintainable systems.</p>
+            <p>My approach is deeply product-focused. I don't just write code — I think about the user, the business model, the edge cases, and the path to scaling. I've led engineering teams, architected systems from scratch, and shipped products used by millions.</p>
+            <p>When I'm not coding, you'll find me contributing to open source, writing technical articles, or exploring the intersection of AI and developer tooling.</p>
+          </div>
+          <div class="mt-10 flex flex-wrap gap-4">
+            <a href="#contact" class="inline-flex items-center gap-2 bg-neutral-900 text-white text-xs font-medium uppercase tracking-widest px-8 py-4 hover:bg-orange-600 transition-colors duration-300">
+              Get in Touch
+              <iconify-icon icon="lucide:arrow-right" width="14"></iconify-icon>
+            </a>
+            <a href="#" class="inline-flex items-center gap-2 border border-neutral-300 text-neutral-900 text-xs font-medium uppercase tracking-widest px-8 py-4 hover:border-orange-600 hover:text-orange-600 transition-colors duration-300">
+              <iconify-icon icon="lucide:file-text" width="14"></iconify-icon>
+              Resume
+            </a>
+          </div>
+        </div>
+        <div class="space-y-8">
+          <!-- Skills -->
+          <div class="border border-neutral-200 p-8">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-6">Core Skills</h3>
+            <div class="space-y-5">
+              <div>
+                <div class="flex justify-between mb-2"><span class="text-sm font-medium">Frontend — React / Next.js / Vue</span><span class="text-xs text-neutral-400">95%</span></div>
+                <div class="h-1 bg-neutral-100"><div class="skill-bar-fill h-full bg-neutral-900" style="width: 0%" data-width="95%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-2"><span class="text-sm font-medium">Backend — Node / Go / Python / Rust</span><span class="text-xs text-neutral-400">92%</span></div>
+                <div class="h-1 bg-neutral-100"><div class="skill-bar-fill h-full bg-neutral-900" style="width: 0%" data-width="92%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-2"><span class="text-sm font-medium">Mobile — React Native / Flutter</span><span class="text-xs text-neutral-400">88%</span></div>
+                <div class="h-1 bg-neutral-100"><div class="skill-bar-fill h-full bg-neutral-900" style="width: 0%" data-width="88%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-2"><span class="text-sm font-medium">Cloud — AWS / GCP / Kubernetes</span><span class="text-xs text-neutral-400">90%</span></div>
+                <div class="h-1 bg-neutral-100"><div class="skill-bar-fill h-full bg-neutral-900" style="width: 0%" data-width="90%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-2"><span class="text-sm font-medium">Databases — PostgreSQL / Redis / ClickHouse</span><span class="text-xs text-neutral-400">91%</span></div>
+                <div class="h-1 bg-neutral-100"><div class="skill-bar-fill h-full bg-neutral-900" style="width: 0%" data-width="91%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between mb-2"><span class="text-sm font-medium">AI/ML — LLMs / RAG / Fine-tuning</span><span class="text-xs text-neutral-400">82%</span></div>
+                <div class="h-1 bg-neutral-100"><div class="skill-bar-fill h-full bg-orange-600" style="width: 0%" data-width="82%"></div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Experience Timeline -->
+          <div class="border border-neutral-200 p-8">
+            <h3 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-6">Experience</h3>
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <div class="w-2 h-2 bg-orange-600 rounded-full mt-2"></div>
+                  <div class="w-px h-full bg-neutral-200"></div>
+                </div>
+                <div class="pb-6">
+                  <div class="text-sm font-semibold">Senior Full Stack Engineer</div>
+                  <div class="text-xs text-orange-600 font-medium">Freelance</div>
+                  <div class="text-xs text-neutral-400 mt-1">Jun 2022 — Present</div>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <div class="w-2 h-2 bg-neutral-300 rounded-full mt-2"></div>
+                  <div class="w-px h-full bg-neutral-200"></div>
+                </div>
+                <div class="pb-6">
+                  <div class="text-sm font-semibold">Full-Stack Engineer</div>
+                  <div class="text-xs text-neutral-500 font-medium">Loadsmart</div>
+                  <div class="text-xs text-neutral-400 mt-1">Jan 2020 — May 2022</div>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <div class="w-2 h-2 bg-neutral-300 rounded-full mt-2"></div>
+                  <div class="w-px h-full bg-neutral-200"></div>
+                </div>
+                <div class="pb-6">
+                  <div class="text-sm font-semibold">Software Engineer</div>
+                  <div class="text-xs text-neutral-500 font-medium">Airbnb</div>
+                  <div class="text-xs text-neutral-400 mt-1">Sep 2017 — Jan 2020</div>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="flex flex-col items-center">
+                  <div class="w-2 h-2 bg-neutral-300 rounded-full mt-2"></div>
+                </div>
+                <div>
+                  <div class="text-sm font-semibold">Software Engineer</div>
+                  <div class="text-xs text-neutral-500 font-medium">Internow</div>
+                  <div class="text-xs text-neutral-400 mt-1">Dec 2016 — Aug 2017</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section id="testimonials" class="py-24 md:py-32 bg-neutral-50 border-y border-neutral-200">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-4 block">Testimonials</span>
+        <h2 class="text-4xl md:text-5xl font-semibold leading-tight tracking-tighter">What people say</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="testimonial-card bg-white border border-neutral-200 p-8 md:p-10">
+          <div class="flex gap-1 mb-6">
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600" style="fill: #EA580C;"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+          </div>
+          <p class="text-sm text-neutral-600 leading-relaxed mb-8">"Alex rebuilt our entire data pipeline and the results were immediate. Dashboard load times dropped from 12 seconds to under 500ms. He doesn't just write code — he thinks about the entire system."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-neutral-200 overflow-hidden">
+              <img src="https://picsum.photos/seed/ceo-sarah/80/80.jpg" alt="" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <div class="text-sm font-semibold">Sarah Mitchell</div>
+              <div class="text-xs text-neutral-400">CEO, FlowMetrics</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card bg-white border border-neutral-200 p-8 md:p-10">
+          <div class="flex gap-1 mb-6">
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+          </div>
+          <p class="text-sm text-neutral-600 leading-relaxed mb-8">"We needed a HIPAA-compliant app built from scratch. Alex navigated the regulatory complexity while still delivering a beautiful, intuitive mobile experience. Our patients love it."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-neutral-200 overflow-hidden">
+              <img src="https://picsum.photos/seed/cto-david/80/80.jpg" alt="" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <div class="text-sm font-semibold">David Park</div>
+              <div class="text-xs text-neutral-400">CTO, PulseCare</div>
+            </div>
+          </div>
+        </div>
+        <div class="testimonial-card bg-white border border-neutral-200 p-8 md:p-10">
+          <div class="flex gap-1 mb-6">
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+            <iconify-icon icon="lucide:star" width="14" class="text-orange-600"></iconify-icon>
+          </div>
+          <p class="text-sm text-neutral-600 leading-relaxed mb-8">"Alex single-handedly built our marketplace platform that now processes $15M in GMV. His ability to think through edge cases — payments, inventory race conditions, multi-tenancy — is exceptional."</p>
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-neutral-200 overflow-hidden">
+              <img src="https://picsum.photos/seed/founder-lisa/80/80.jpg" alt="" class="w-full h-full object-cover">
+            </div>
+            <div>
+              <div class="text-sm font-semibold">Lisa Nguyen</div>
+              <div class="text-xs text-neutral-400">Founder, VendorHub</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="py-24 md:py-32 relative">
+    <div class="absolute inset-0 grid-bg pointer-events-none"></div>
+    <div class="max-w-screen-2xl mx-auto px-6 relative">
+      <div class="max-w-3xl mx-auto text-center">
+        <span class="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-4 block">Get in Touch</span>
+        <h2 class="text-4xl md:text-6xl font-semibold leading-tight tracking-tighter mb-6">Let's build something<br><span class="text-neutral-400">remarkable together</span></h2>
+        <p class="text-lg font-light text-neutral-500 leading-relaxed mb-12">Whether you have a project in mind, want to discuss an opportunity, or just want to say hello — I'd love to hear from you.</p>
+
+        <form id="contact-form" class="text-left space-y-6 mb-12">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Name</label>
+              <input type="text" required class="w-full border border-neutral-300 px-4 py-4 text-sm focus:outline-none focus:border-orange-600 transition-colors" placeholder="Your name">
+            </div>
+            <div>
+              <label class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Email</label>
+              <input type="email" required class="w-full border border-neutral-300 px-4 py-4 text-sm focus:outline-none focus:border-orange-600 transition-colors" placeholder="your@email.com">
+            </div>
+          </div>
+          <div>
+            <label class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Project Type</label>
+            <select class="w-full border border-neutral-300 px-4 py-4 text-sm text-neutral-500 focus:outline-none focus:border-orange-600 transition-colors bg-white">
+              <option>SaaS Product</option>
+              <option>Mobile App</option>
+              <option>Platform / Marketplace</option>
+              <option>AI / ML Integration</option>
+              <option>Consulting / Advisory</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-2 block">Message</label>
+            <textarea rows="5" required class="w-full border border-neutral-300 px-4 py-4 text-sm focus:outline-none focus:border-orange-600 transition-colors resize-none" placeholder="Tell me about your project..."></textarea>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="inline-flex items-center gap-2 bg-neutral-900 text-white text-xs font-medium uppercase tracking-widest px-12 py-4 hover:bg-orange-600 transition-colors duration-300">
+              Send Message
+              <iconify-icon icon="lucide:send" width="14"></iconify-icon>
+            </button>
+          </div>
+          <div id="form-success" class="hidden text-center py-4 bg-green-50 border border-green-200">
+            <p class="text-sm text-green-700 font-medium">Message sent! I'll get back to you within 24 hours.</p>
+          </div>
+        </form>
+
+        <div class="flex items-center justify-center gap-8">
+          <a href="#" class="text-neutral-400 hover:text-orange-600 transition-colors" title="GitHub">
+            <iconify-icon icon="lucide:github" width="20"></iconify-icon>
+          </a>
+          <a href="#" class="text-neutral-400 hover:text-orange-600 transition-colors" title="LinkedIn">
+            <iconify-icon icon="lucide:linkedin" width="20"></iconify-icon>
+          </a>
+          <a href="#" class="text-neutral-400 hover:text-orange-600 transition-colors" title="Twitter / X">
+            <iconify-icon icon="lucide:twitter" width="20"></iconify-icon>
+          </a>
+          <a href="mailto:hello@jaycegarcia.dev" class="text-neutral-400 hover:text-orange-600 transition-colors" title="Email">
+            <iconify-icon icon="lucide:mail" width="20"></iconify-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-neutral-200 py-12">
+    <div class="max-w-screen-2xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <div class="w-4 h-4 bg-orange-600"></div>
+          <span class="text-sm font-semibold tracking-tight">jayce.garcia</span>
+        </div>
+        <div class="text-xs text-neutral-400">© 2025 Jayce Garcia. Built with care.</div>
+        <div class="flex items-center gap-6">
+          <a href="#hero" class="text-xs text-neutral-400 hover:text-orange-600 transition-colors uppercase tracking-widest">Top</a>
+          <a href="#projects" class="text-xs text-neutral-400 hover:text-orange-600 transition-colors uppercase tracking-widest">Work</a>
+          <a href="#contact" class="text-xs text-neutral-400 hover:text-orange-600 transition-colors uppercase tracking-widest">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Project Detail Modals -->
+  <div id="modal-1" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('modal-1')"></div>
+    <div class="modal-content absolute right-0 top-0 bottom-0 w-full max-w-2xl bg-white overflow-y-auto">
+      <div class="sticky top-0 bg-white/90 backdrop-blur-sm z-10 p-6 border-b border-neutral-200 flex items-center justify-between">
+        <span class="text-xs font-semibold uppercase tracking-widest text-neutral-400">Case Study</span>
+        <button onclick="closeModal('modal-1')" class="p-2 hover:bg-neutral-100 rounded transition-colors">
+          <iconify-icon icon="lucide:x" width="20"></iconify-icon>
+        </button>
+      </div>
+      <div class="p-6 md:p-10">
+        <img src="https://picsum.photos/seed/saas-dashboard-analytics/800/400.jpg" alt="FlowMetrics" class="w-full h-64 object-cover mb-8 border border-neutral-200">
+        <div class="flex gap-2 mb-4">
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-600 px-3 py-1 border border-orange-200 bg-orange-50">SaaS</span>
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 px-3 py-1 border border-neutral-200">Analytics</span>
+        </div>
+        <h2 class="text-3xl font-semibold tracking-tight mb-4">FlowMetrics</h2>
+        <p class="text-neutral-500 leading-relaxed mb-8">Real-time analytics platform for SaaS companies, providing automated reporting, cohort analysis, and revenue forecasting.</p>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">The Challenge</h4>
+        <p class="text-sm text-neutral-600 leading-relaxed mb-8">The company was using a traditional PostgreSQL-based analytics stack that couldn't keep up with their growth. Dashboard queries were taking 12+ seconds, real-time features were impossible, and their monthly cloud bill for analytics alone exceeded $40K.</p>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">My Approach</h4>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Designed a streaming architecture with Kafka for event ingestion and ClickHouse for columnar storage</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Built a materialized view layer for common dashboard queries, reducing computation at query time</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Implemented WebSocket-based real-time updates to eliminate polling</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Created a custom query optimizer that routes queries to the optimal storage backend</li>
+        </ul>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Results</h4>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">94%</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Query Time Reduction</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">60%</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Cost Reduction</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">10K+</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Customers Served</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">$4.2M</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">ARR Achieved</div>
+          </div>
+        </div>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Tech Stack</h4>
+        <div class="flex flex-wrap gap-2 mb-8">
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Next.js 14</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Go</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">ClickHouse</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Apache Kafka</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Redis</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">WebSocket</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">AWS ECS</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Terraform</span>
+        </div>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">My Role</h4>
+        <p class="text-sm text-neutral-600 leading-relaxed">Led a team of 4 engineers. Owned the data architecture, built the streaming pipeline, designed the API layer, and implemented the real-time dashboard system. Also worked directly with the CTO on infrastructure strategy and cost optimization.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-2" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('modal-2')"></div>
+    <div class="modal-content absolute right-0 top-0 bottom-0 w-full max-w-2xl bg-white overflow-y-auto">
+      <div class="sticky top-0 bg-white/90 backdrop-blur-sm z-10 p-6 border-b border-neutral-200 flex items-center justify-between">
+        <span class="text-xs font-semibold uppercase tracking-widest text-neutral-400">Case Study</span>
+        <button onclick="closeModal('modal-2')" class="p-2 hover:bg-neutral-100 rounded transition-colors">
+          <iconify-icon icon="lucide:x" width="20"></iconify-icon>
+        </button>
+      </div>
+      <div class="p-6 md:p-10">
+        <img src="https://picsum.photos/seed/mobile-health-app/800/400.jpg" alt="PulseCare" class="w-full h-64 object-cover mb-8 border border-neutral-200">
+        <div class="flex gap-2 mb-4">
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-600 px-3 py-1 border border-orange-200 bg-orange-50">Mobile</span>
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 px-3 py-1 border border-neutral-200">HealthTech</span>
+        </div>
+        <h2 class="text-3xl font-semibold tracking-tight mb-4">PulseCare</h2>
+        <p class="text-neutral-500 leading-relaxed mb-8">Cross-platform health monitoring app with real-time vitals tracking, telemedicine, and AI-powered health insights.</p>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">The Challenge</h4>
+        <p class="text-sm text-neutral-600 leading-relaxed mb-8">Building a consumer health app that meets HIPAA requirements while delivering a premium mobile experience. The app needed to sync data from Bluetooth medical devices in real-time, support offline usage, and integrate with 2,000+ healthcare providers for telemedicine.</p>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">My Approach</h4>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Designed an offline-first architecture with SQLite local storage and background sync</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Built a custom Bluetooth Low Energy manager for cross-platform device communication</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Implemented end-to-end encryption for all health data at rest and in transit</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Created a WebRTC-based telemedicine module with low-latency video and screen sharing</li>
+        </ul>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Results</h4>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">500K</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Active Patients</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">4.8★</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">App Store Rating</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">99.9%</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Uptime SLA</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">2K+</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Providers</div>
+          </div>
+        </div>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Tech Stack</h4>
+        <div class="flex flex-wrap gap-2 mb-8">
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">React Native</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Node.js</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">PostgreSQL</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">WebSocket</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">WebRTC</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">BLE</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">AWS</span>
+        </div>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">My Role</h4>
+        <p class="text-sm text-neutral-600 leading-relaxed">Sole mobile engineer for the first 6 months, then led a team of 3. Owned the mobile architecture, BLE integration, offline sync system, and telemedicine module. Worked closely with the compliance team to ensure HIPAA adherence across all data flows.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-3" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('modal-3')"></div>
+    <div class="modal-content absolute right-0 top-0 bottom-0 w-full max-w-2xl bg-white overflow-y-auto">
+      <div class="sticky top-0 bg-white/90 backdrop-blur-sm z-10 p-6 border-b border-neutral-200 flex items-center justify-between">
+        <span class="text-xs font-semibold uppercase tracking-widest text-neutral-400">Case Study</span>
+        <button onclick="closeModal('modal-3')" class="p-2 hover:bg-neutral-100 rounded transition-colors">
+          <iconify-icon icon="lucide:x" width="20"></iconify-icon>
+        </button>
+      </div>
+      <div class="p-6 md:p-10">
+        <img src="https://picsum.photos/seed/marketplace-platform/800/400.jpg" alt="VendorHub" class="w-full h-64 object-cover mb-8 border border-neutral-200">
+        <div class="flex gap-2 mb-4">
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-600 px-3 py-1 border border-orange-200 bg-orange-50">Platform</span>
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 px-3 py-1 border border-neutral-200">Marketplace</span>
+        </div>
+        <h2 class="text-3xl font-semibold tracking-tight mb-4">VendorHub</h2>
+        <p class="text-neutral-500 leading-relaxed mb-8">Multi-vendor marketplace platform handling $15M+ GMV with real-time inventory and automated fulfillment.</p>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">The Challenge</h4>
+        <p class="text-sm text-neutral-600 leading-relaxed mb-8">Building a marketplace from scratch that could handle multi-vendor inventory management, split payments, real-time search across 5,000+ vendors, and automated order fulfillment — all while maintaining sub-200ms response times as the platform scaled.</p>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">My Approach</h4>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Architected a multi-tenant system with schema isolation and shared-nothing data partitions</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Built an event-sourced order management system for auditability and fault tolerance</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Implemented Stripe Connect for automated split payments and vendor payouts</li>
+          <li class="flex items-start gap-3 text-sm text-neutral-600"><iconify-icon icon="lucide:check-circle" width="16" class="text-orange-600 mt-0.5 flex-shrink-0"></iconify-icon>Designed an Elasticsearch-powered search with faceted filtering and typo tolerance</li>
+        </ul>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Results</h4>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">$15M</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">GMV in 18 Months</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">5K+</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Active Vendors</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">180ms</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Avg Response Time</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">99.7%</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Order Accuracy</div>
+          </div>
+        </div>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Tech Stack</h4>
+        <div class="flex flex-wrap gap-2 mb-8">
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">TypeScript</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">NestJS</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Next.js</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">PostgreSQL</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Elasticsearch</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Stripe Connect</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">AWS</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Redis</span>
+        </div>
+
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">My Role</h4>
+        <p class="text-sm text-neutral-600 leading-relaxed">Founding engineer. Designed the entire system architecture, built the core platform (catalog, search, cart, checkout, payments, fulfillment), and scaled the team from 1 to 6 engineers. Owned all technical decisions and directly managed the infrastructure.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-4" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('modal-4')"></div>
+    <div class="modal-content absolute right-0 top-0 bottom-0 w-full max-w-2xl bg-white overflow-y-auto">
+      <div class="sticky top-0 bg-white/90 backdrop-blur-sm z-10 p-6 border-b border-neutral-200 flex items-center justify-between">
+        <span class="text-xs font-semibold uppercase tracking-widest text-neutral-400">Case Study</span>
+        <button onclick="closeModal('modal-4')" class="p-2 hover:bg-neutral-100 rounded transition-colors">
+          <iconify-icon icon="lucide:x" width="20"></iconify-icon>
+        </button>
+      </div>
+      <div class="p-6 md:p-10">
+        <img src="https://picsum.photos/seed/ai-writing-tool/800/400.jpg" alt="CopyForge" class="w-full h-64 object-cover mb-8 border border-neutral-200">
+        <div class="flex gap-2 mb-4">
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-600 px-3 py-1 border border-orange-200 bg-orange-50">AI/ML</span>
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 px-3 py-1 border border-neutral-200">SaaS</span>
+        </div>
+        <h2 class="text-3xl font-semibold tracking-tight mb-4">CopyForge</h2>
+        <p class="text-neutral-500 leading-relaxed mb-8">AI-powered content generation platform with custom model fine-tuning and multi-channel publishing workflow.</p>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">The Challenge</h4>
+        <p class="text-sm text-neutral-600 leading-relaxed mb-8">Generic AI writing tools produce generic content. CopyForge needed to let brands train custom models on their existing content to maintain consistent voice, tone, and style across all generated outputs — while making the workflow intuitive for non-technical marketing teams.</p>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Results</h4>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">3.2x</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Content Output</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">85%</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Less Editing</div>
+          </div>
+        </div>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Tech Stack</h4>
+        <div class="flex flex-wrap gap-2 mb-8">
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Python</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">FastAPI</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">OpenAI API</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">React</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Pinecone</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Vercel</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-5" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('modal-5')"></div>
+    <div class="modal-content absolute right-0 top-0 bottom-0 w-full max-w-2xl bg-white overflow-y-auto">
+      <div class="sticky top-0 bg-white/90 backdrop-blur-sm z-10 p-6 border-b border-neutral-200 flex items-center justify-between">
+        <span class="text-xs font-semibold uppercase tracking-widest text-neutral-400">Case Study</span>
+        <button onclick="closeModal('modal-5')" class="p-2 hover:bg-neutral-100 rounded transition-colors">
+          <iconify-icon icon="lucide:x" width="20"></iconify-icon>
+        </button>
+      </div>
+      <div class="p-6 md:p-10">
+        <img src="https://picsum.photos/seed/fintech-mobile-app/800/400.jpg" alt="PaySplit" class="w-full h-64 object-cover mb-8 border border-neutral-200">
+        <div class="flex gap-2 mb-4">
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-600 px-3 py-1 border border-orange-200 bg-orange-50">Mobile</span>
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 px-3 py-1 border border-neutral-200">FinTech</span>
+        </div>
+        <h2 class="text-3xl font-semibold tracking-tight mb-4">PaySplit</h2>
+        <p class="text-neutral-500 leading-relaxed mb-8">Peer-to-peer payment app with bill splitting, expense tracking, and social payment features.</p>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Results</h4>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">$8M</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Transactions Year 1</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">250K</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Users</div>
+          </div>
+        </div>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Tech Stack</h4>
+        <div class="flex flex-wrap gap-2 mb-8">
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Flutter</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Go</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Stripe</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">PostgreSQL</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">GCP</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="modal-6" class="fixed inset-0 z-[60] hidden" role="dialog" aria-modal="true">
+    <div class="modal-overlay absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeModal('modal-6')"></div>
+    <div class="modal-content absolute right-0 top-0 bottom-0 w-full max-w-2xl bg-white overflow-y-auto">
+      <div class="sticky top-0 bg-white/90 backdrop-blur-sm z-10 p-6 border-b border-neutral-200 flex items-center justify-between">
+        <span class="text-xs font-semibold uppercase tracking-widest text-neutral-400">Case Study</span>
+        <button onclick="closeModal('modal-6')" class="p-2 hover:bg-neutral-100 rounded transition-colors">
+          <iconify-icon icon="lucide:x" width="20"></iconify-icon>
+        </button>
+      </div>
+      <div class="p-6 md:p-10">
+        <img src="https://picsum.photos/seed/devops-ci-cd-tool/800/400.jpg" alt="ShipFast" class="w-full h-64 object-cover mb-8 border border-neutral-200">
+        <div class="flex gap-2 mb-4">
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-orange-600 px-3 py-1 border border-orange-200 bg-orange-50">SaaS</span>
+          <span class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 px-3 py-1 border border-neutral-200">DevTools</span>
+        </div>
+        <h2 class="text-3xl font-semibold tracking-tight mb-4">ShipFast</h2>
+        <p class="text-neutral-500 leading-relaxed mb-8">CI/CD orchestration platform with visual pipeline builder and canary deployments.</p>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Results</h4>
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">200+</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Engineering Teams</div>
+          </div>
+          <div class="bg-neutral-50 p-4 border border-neutral-200 text-center">
+            <div class="text-2xl font-light tracking-tighter text-orange-600">70%</div>
+            <div class="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">Faster Deployments</div>
+          </div>
+        </div>
+        <h4 class="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-4">Tech Stack</h4>
+        <div class="flex flex-wrap gap-2 mb-8">
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Rust</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">React</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">Kubernetes</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">gRPC</span>
+          <span class="text-xs font-mono text-neutral-600 bg-neutral-100 px-3 py-1.5">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Mobile menu toggle
+    const mobileToggle = document.getElementById('mobile-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
+    });
+
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 50) {
+        navbar.style.borderBottom = '1px solid #E5E5E5';
+      } else {
+        navbar.style.borderBottom = 'none';
+      }
+    });
+
+    // Active nav link highlighting
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-link');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop - 100;
+        if (window.scrollY >= sectionTop) {
+          current = section.getAttribute('id');
+        }
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Project filtering
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('#projects-grid .case-study-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => {
+          b.classList.remove('active');
+          b.classList.add('text-neutral-500');
+        });
+        btn.classList.add('active');
+        btn.classList.remove('text-neutral-500');
+
+        const filter = btn.dataset.filter;
+
+        projectCards.forEach((card, i) => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.classList.remove('project-hidden');
+            card.classList.add('project-visible');
+            card.style.animationDelay = `${i * 0.1}s`;
+          } else {
+            card.classList.remove('project-visible');
+            card.classList.add('project-hidden');
+          }
+        });
+      });
+    });
+
+    // Modal open/close
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      // Focus trap
+      modal.querySelector('button').focus();
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.fixed.z-\\[60\\]').forEach(modal => {
+          if (!modal.classList.contains('hidden')) {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+          }
+        });
+      }
+    });
+
+    // Contact form
+    document.getElementById('contact-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = e.target.querySelector('button[type="submit"]');
+      btn.innerHTML = '<iconify-icon icon="lucide:loader-2" width="14" class="animate-spin"></iconify-icon> Sending...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.innerHTML = 'Send Message <iconify-icon icon="lucide:send" width="14"></iconify-icon>';
+        btn.disabled = false;
+        document.getElementById('form-success').classList.remove('hidden');
+        e.target.reset();
+        setTimeout(() => {
+          document.getElementById('form-success').classList.add('hidden');
+        }, 5000);
+      }, 1500);
+    });
+
+    // Skill bar animation on scroll
+    const skillBars = document.querySelectorAll('.skill-bar-fill');
+    const skillObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const bar = entry.target;
+          bar.style.width = bar.dataset.width;
+          skillObserver.unobserve(bar);
+        }
+      });
+    }, { threshold: 0.3 });
+
+    skillBars.forEach(bar => skillObserver.observe(bar));
+
+    // Scroll-triggered fade-in for sections
+    const fadeElements = document.querySelectorAll('.case-study-card, .testimonial-card, .stat-card');
+    const fadeObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    fadeElements.forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(20px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      fadeObserver.observe(el);
+    });
+  </script>
+</body>
+</html>
