@@ -1,3 +1,5 @@
+import { SITE_EMAIL } from '../data/content'
+
 interface SocialIconProps {
   size?: number
   className?: string
@@ -63,13 +65,18 @@ function TwitterIcon({ size = 20, className }: SocialIconProps) {
   )
 }
 
-import { SITE_EMAIL } from '../data/content'
+interface SocialLinksProps {
+  variant?: 'light' | 'dark'
+}
 
-const linkClass = 'text-neutral-400 hover:text-orange-600 transition-colors'
+export function SocialLinks({ variant = 'light' }: SocialLinksProps) {
+  const linkClass =
+    variant === 'dark'
+      ? 'opacity-70 hover:opacity-100 transition-opacity'
+      : 'text-[var(--color-muted)] hover:text-[var(--color-accent)] transition-colors'
 
-export function SocialLinks() {
   return (
-    <div className="flex items-center justify-center gap-8">
+    <div className="flex items-center justify-center gap-6">
       <a href="#" className={linkClass} title="GitHub" aria-label="GitHub">
         <GitHubIcon />
       </a>

@@ -1,6 +1,8 @@
 import { useState } from 'react'
+import { ArrowRight } from 'lucide-react'
 import { PROJECT_FILTERS, PROJECTS, type ProjectFilter } from '../data/content'
 import { ProjectCard } from './ProjectCard'
+import { ScrollReveal } from './ScrollReveal'
 
 interface ProjectsProps {
   onOpenModal: (id: string) => void
@@ -13,34 +15,28 @@ export function Projects({ onOpenModal }: ProjectsProps) {
     filter === 'all' ? PROJECTS : PROJECTS.filter((p) => p.category === filter)
 
   return (
-    <section id="projects" className="py-24 md:py-32">
-      <div className="max-w-screen-2xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-          <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-4 block">
-              Selected Work
-            </span>
-            <h2 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tighter">
-              Featured Projects
-            </h2>
+    <section id="projects" className="py-20 md:py-28">
+      <div className="page-container-wide">
+        <ScrollReveal className="mb-10 md:mb-14">
+          <p className="section-eyebrow mb-3">Selected work</p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <h2 className="section-title">Featured Projects</h2>
+            <div className="flex flex-wrap gap-2">
+              {PROJECT_FILTERS.map(({ id, label }) => (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setFilter(id)}
+                  className={`filter-pill ${filter === id ? 'active' : ''}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {PROJECT_FILTERS.map(({ id, label }) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => setFilter(id)}
-                className={`filter-btn text-xs font-medium uppercase tracking-widest px-4 py-2 border border-neutral-300 ${
-                  filter === id ? 'active' : 'text-neutral-500'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        </div>
+        </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div>
           {filtered.map((project, index) => (
             <ProjectCard
               key={project.id}
@@ -50,6 +46,17 @@ export function Projects({ onOpenModal }: ProjectsProps) {
             />
           ))}
         </div>
+
+        <ScrollReveal className="mt-8 text-center">
+          <button
+            type="button"
+            onClick={() => onOpenModal(filtered[0]?.id ?? PROJECTS[0].id)}
+            className="btn-ghost"
+          >
+            View project details
+            <ArrowRight size={16} />
+          </button>
+        </ScrollReveal>
       </div>
     </section>
   )

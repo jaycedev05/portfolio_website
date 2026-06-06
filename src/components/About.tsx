@@ -1,139 +1,107 @@
-import { ArrowRight, ExternalLink, FileText } from 'lucide-react'
+import { ArrowRight, FileText } from 'lucide-react'
 import {
   ABOUT_DIFFERENTIATOR,
   ABOUT_HEADLINE,
   ABOUT_PARAGRAPHS,
-  ABOUT_STARTUP_INTRO,
   EXPERIENCE,
-  PROJECTS,
   SKILLS,
 } from '../data/content'
 import { useSkillBars } from '../hooks/useSkillBars'
+import { ScrollReveal } from './ScrollReveal'
 
 export function About() {
   const { containerRef, animated } = useSkillBars()
 
   return (
-    <section id="about" className="py-24 md:py-32">
-      <div className="max-w-screen-2xl mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+    <section id="about" className="py-20 md:py-28">
+      <div className="page-container-wide">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 lg:gap-20 items-start">
           <div>
-            <span className="text-xs font-semibold uppercase tracking-widest text-orange-600 mb-4 block">
-              About
-            </span>
-            <h2 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tighter mb-8">
-              {ABOUT_HEADLINE}
-            </h2>
-            <div className="space-y-6 text-neutral-500 leading-relaxed">
+            <ScrollReveal>
+              <p className="section-eyebrow mb-3">About</p>
+              <h2 className="section-title mb-8">{ABOUT_HEADLINE}</h2>
+            </ScrollReveal>
+
+            <ScrollReveal className="space-y-5 text-[var(--color-ink-secondary)] leading-relaxed">
               {ABOUT_PARAGRAPHS.map((paragraph) => (
                 <p key={paragraph.slice(0, 40)}>{paragraph}</p>
               ))}
-              <div className="border-l-2 border-orange-600 pl-6 py-1">
-                <h3 className="text-sm font-semibold text-neutral-900 mb-2">
+
+              <blockquote className="border-l-2 border-[var(--color-accent)] pl-5 py-1 my-6">
+                <h3 className="font-serif text-lg font-bold text-[var(--color-ink)] mb-2">
                   {ABOUT_DIFFERENTIATOR.title}
                 </h3>
                 <p>{ABOUT_DIFFERENTIATOR.body}</p>
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold text-neutral-900 mb-3">Startup experience</h3>
-                <p className="mb-4">{ABOUT_STARTUP_INTRO}</p>
-                <ul className="space-y-4">
-                  {PROJECTS.map((project) => (
-                    <li key={project.id}>
-                      <a
-                        href={project.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group inline-flex items-center gap-1.5 text-neutral-900 font-medium hover:text-orange-600 transition-colors"
-                      >
-                        {project.title}
-                        <ExternalLink
-                          size={14}
-                          className="opacity-0 group-hover:opacity-100 transition-opacity"
-                        />
-                      </a>
-                      <p className="text-sm mt-1">{project.description}</p>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <p>Send me a message or book a quick call — let&apos;s build something great.</p>
-            </div>
-            <div className="mt-10 flex flex-wrap gap-4">
-              <a
-                href="#contact"
-                className="inline-flex items-center gap-2 bg-neutral-900 text-white text-xs font-medium uppercase tracking-widest px-8 py-4 hover:bg-orange-600 transition-colors duration-300"
-              >
-                Get in Touch
-                <ArrowRight size={14} />
+              </blockquote>
+            </ScrollReveal>
+
+            <ScrollReveal className="mt-10 flex flex-wrap gap-4">
+              <a href="#contact" className="btn-primary">
+                Get in touch
+                <ArrowRight size={16} />
               </a>
-              <a
-                href="#"
-                className="inline-flex items-center gap-2 border border-neutral-300 text-neutral-900 text-xs font-medium uppercase tracking-widest px-8 py-4 hover:border-orange-600 hover:text-orange-600 transition-colors duration-300"
-              >
-                <FileText size={14} />
+              <a href="#" className="btn-primary !border-[var(--color-border)] !text-[var(--color-ink-secondary)] hover:!border-[var(--color-ink)]">
+                <FileText size={16} />
                 Resume
               </a>
-            </div>
+            </ScrollReveal>
           </div>
 
-          <div className="space-y-8">
-            <div className="border border-neutral-200 p-8" ref={containerRef}>
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-6">
-                Core Skills
-              </h3>
-              <div className="space-y-5">
-                {SKILLS.map((skill) => (
-                  <div key={skill.label}>
-                    <div className="flex justify-between mb-2">
-                      <span className="text-sm font-medium">{skill.label}</span>
-                      <span className="text-xs text-neutral-400">{skill.percent}%</span>
-                    </div>
-                    <div className="h-1 bg-neutral-100">
-                      <div
-                        className={`skill-bar-fill h-full ${
-                          skill.highlight ? 'bg-orange-600' : 'bg-neutral-900'
-                        }`}
-                        style={{ width: animated ? `${skill.percent}%` : '0%' }}
-                      />
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="border border-neutral-200 p-8">
-              <h3 className="text-xs font-semibold uppercase tracking-widest text-neutral-400 mb-6">
-                Experience
-              </h3>
-              <div className="space-y-6">
-                {EXPERIENCE.map((job, index) => (
-                  <div key={`${job.company}-${job.period}`} className="flex gap-4">
-                    <div className="flex flex-col items-center">
-                      <div
-                        className={`w-2 h-2 rounded-full mt-2 ${
-                          job.active ? 'bg-orange-600' : 'bg-neutral-300'
-                        }`}
-                      />
-                      {index < EXPERIENCE.length - 1 && (
-                        <div className="w-px h-full bg-neutral-200" />
-                      )}
-                    </div>
-                    <div className={index < EXPERIENCE.length - 1 ? 'pb-6' : ''}>
-                      <div className="text-sm font-semibold">{job.title}</div>
-                      <div
-                        className={`text-xs font-medium ${
-                          job.active ? 'text-orange-600' : 'text-neutral-500'
-                        }`}
-                      >
-                        {job.company}
+          <div className="space-y-6">
+            <ScrollReveal>
+              <div className="border border-[var(--color-border)] rounded p-8 bg-[var(--color-surface)]" ref={containerRef}>
+                <h3 className="font-serif text-lg font-bold mb-6">Core Skills</h3>
+                <div className="space-y-5">
+                  {SKILLS.map((skill) => (
+                    <div key={skill.label}>
+                      <div className="flex justify-between mb-2 text-sm">
+                        <span className="font-medium">{skill.label}</span>
+                        <span className="text-[var(--color-muted)]">{skill.percent}%</span>
                       </div>
-                      <div className="text-xs text-neutral-400 mt-1">{job.period}</div>
+                      <div className="h-1 bg-[var(--color-border)] rounded-full overflow-hidden">
+                        <div
+                          className="skill-bar-fill h-full rounded-full"
+                          style={{ width: animated ? `${skill.percent}%` : '0%' }}
+                        />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <div className="border border-[var(--color-border)] rounded p-8">
+                <h3 className="font-serif text-lg font-bold mb-6">Experience</h3>
+                <div className="space-y-6">
+                  {EXPERIENCE.map((job, index) => (
+                    <div key={`${job.company}-${job.period}`} className="flex gap-4 group">
+                      <div className="flex flex-col items-center">
+                        <div
+                          className={`w-2 h-2 rounded-full mt-2 transition-colors ${
+                            job.active ? 'bg-[var(--color-accent)]' : 'bg-[var(--color-border)]'
+                          } group-hover:bg-[var(--color-accent)]`}
+                        />
+                        {index < EXPERIENCE.length - 1 && (
+                          <div className="w-px flex-1 bg-[var(--color-border)] mt-1" />
+                        )}
+                      </div>
+                      <div className={index < EXPERIENCE.length - 1 ? 'pb-4' : ''}>
+                        <div className="text-sm font-semibold">{job.title}</div>
+                        <div
+                          className={`text-sm ${
+                            job.active ? 'text-[var(--color-accent)]' : 'text-[var(--color-muted)]'
+                          }`}
+                        >
+                          {job.company}
+                        </div>
+                        <div className="text-xs text-[var(--color-muted)] mt-1">{job.period}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </div>

@@ -1,33 +1,24 @@
-import { useState } from 'react'
-import { About } from './components/About'
-import { CaseStudies } from './components/CaseStudies'
-import { Contact } from './components/Contact'
-import { Footer } from './components/Footer'
-import { Hero } from './components/Hero'
-import { Navbar } from './components/Navbar'
-import { ProjectModal } from './components/ProjectModal'
-import { Projects } from './components/Projects'
-import { StatsBar } from './components/StatsBar'
-import { Testimonials } from './components/Testimonials'
-import { PROJECTS } from './data/content'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { BlogIndexPage } from './pages/BlogIndexPage'
+import { BlogPostPage } from './pages/BlogPostPage'
+import { HomePage } from './pages/HomePage'
 
 export default function App() {
-  const [openModalId, setOpenModalId] = useState<string | null>(null)
-
-  const openProject = PROJECTS.find((p) => p.id === openModalId) ?? null
-
   return (
-    <div className="font-sans bg-white text-neutral-900">
-      <Navbar />
-      <Hero />
-      <StatsBar />
-      <Projects onOpenModal={setOpenModalId} />
-      <CaseStudies onOpenModal={setOpenModalId} />
-      <About />
-      <Testimonials />
-      <Contact />
-      <Footer />
-      <ProjectModal project={openProject} onClose={() => setOpenModalId(null)} />
-    </div>
+    <BrowserRouter>
+      <div className="bg-white text-[var(--color-ink)]">
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[var(--color-ink)] focus:text-white focus:rounded"
+        >
+          Skip to main content
+        </a>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/blog" element={<BlogIndexPage />} />
+          <Route path="/blog/:slug" element={<BlogPostPage />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
   )
 }

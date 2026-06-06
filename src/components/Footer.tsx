@@ -1,36 +1,39 @@
-import { SITE_HANDLE, SITE_NAME } from '../data/content'
+import { Link } from 'react-router-dom'
+import { SITE_NAME } from '../data/content'
+import { SocialLinks } from './SocialLinks'
 
 export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="border-t border-neutral-200 py-12">
-      <div className="max-w-screen-2xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <div className="w-4 h-4 bg-orange-600" />
-            <span className="text-sm font-semibold tracking-tight">{SITE_HANDLE}</span>
-          </div>
-          <div className="text-xs text-neutral-400">
-            © {year} {SITE_NAME}. Built with care.
-          </div>
-          <div className="flex items-center gap-6">
-            <a
-              href="#hero"
-              className="text-xs text-neutral-400 hover:text-orange-600 transition-colors uppercase tracking-widest"
+    <footer className="dark-section py-12 border-t border-white/10">
+      <div className="page-container-wide">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+          <div className="text-center md:text-left">
+            <Link
+              to="/"
+              className="font-serif text-xl font-bold hover:text-[#d4c4a8] transition-colors"
             >
+              {SITE_NAME}
+            </Link>
+            <p className="text-xs opacity-50 mt-2">
+              © {year} {SITE_NAME}. All rights reserved.
+            </p>
+          </div>
+
+          <SocialLinks variant="dark" />
+
+          <div className="flex items-center gap-6 text-sm opacity-70">
+            <Link to="/" className="hover:opacity-100 transition-opacity">
               Top
-            </a>
-            <a
-              href="#projects"
-              className="text-xs text-neutral-400 hover:text-orange-600 transition-colors uppercase tracking-widest"
-            >
+            </Link>
+            <a href="/#projects" className="hover:opacity-100 transition-opacity">
               Work
             </a>
-            <a
-              href="#contact"
-              className="text-xs text-neutral-400 hover:text-orange-600 transition-colors uppercase tracking-widest"
-            >
+            <Link to="/blog" className="hover:opacity-100 transition-opacity">
+              Blog
+            </Link>
+            <a href="/#contact" className="hover:opacity-100 transition-opacity">
               Contact
             </a>
           </div>

@@ -1,5 +1,7 @@
+import type { CSSProperties } from 'react'
 import { ArrowRight } from 'lucide-react'
 import { CASE_STUDIES } from '../data/content'
+import { ScrollReveal } from './ScrollReveal'
 
 interface CaseStudiesProps {
   onOpenModal: (id: string) => void
@@ -7,44 +9,40 @@ interface CaseStudiesProps {
 
 export function CaseStudies({ onOpenModal }: CaseStudiesProps) {
   return (
-    <section id="case-studies" className="py-24 md:py-32 bg-neutral-900 text-white relative overflow-hidden">
-      <div className="absolute inset-0 dark-grid-bg pointer-events-none" />
-      <div className="max-w-screen-2xl mx-auto px-6 relative">
-        <div className="text-center mb-20">
-          <span className="text-xs font-semibold uppercase tracking-widest text-orange-500 mb-4 block">
-            Deep Dives
-          </span>
-          <h2 className="text-4xl md:text-5xl font-semibold leading-tight tracking-tighter mb-6">
-            Case Studies
-          </h2>
-          <p className="text-lg font-light text-neutral-400 max-w-2xl mx-auto leading-relaxed">
+    <section id="case-studies" className="py-20 md:py-28 bg-[var(--color-beige)]">
+      <div className="page-container-wide">
+        <ScrollReveal className="text-center mb-14 md:mb-20">
+          <p className="section-eyebrow mb-3">Deep dives</p>
+          <h2 className="section-title mb-5">Case Studies</h2>
+          <p className="text-lg text-[var(--color-ink-secondary)] leading-relaxed max-w-2xl mx-auto">
             A closer look at the problems I solved, the decisions I made, and the outcomes I
             delivered.
           </p>
-        </div>
+        </ScrollReveal>
 
-        {CASE_STUDIES.map((study, studyIndex) => (
-          <div
-            key={study.id}
-            className={`border border-neutral-800 group hover:border-neutral-700 transition-colors duration-300 ${
-              studyIndex < CASE_STUDIES.length - 1 ? 'mb-8' : ''
-            }`}
-          >
-            <div className="grid grid-cols-1 lg:grid-cols-2">
-              {study.imageRight ? (
-                <>
-                  <StudyContent study={study} onOpenModal={onOpenModal} imageRight />
-                  <StudyImage study={study} imageRight />
-                </>
-              ) : (
-                <>
-                  <StudyImage study={study} />
-                  <StudyContent study={study} onOpenModal={onOpenModal} />
-                </>
-              )}
-            </div>
-          </div>
-        ))}
+        <div className="space-y-6 md:space-y-8">
+          {CASE_STUDIES.map((study, studyIndex) => (
+            <ScrollReveal
+              key={study.id}
+              className="scroll-reveal-stagger case-study-block group"
+              style={{ '--stagger': studyIndex } as CSSProperties}
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-2 lg:items-center">
+                {study.imageRight ? (
+                  <>
+                    <StudyContent study={study} onOpenModal={onOpenModal} imageRight />
+                    <StudyImage study={study} imageRight />
+                  </>
+                ) : (
+                  <>
+                    <StudyImage study={study} />
+                    <StudyContent study={study} onOpenModal={onOpenModal} />
+                  </>
+                )}
+              </div>
+            </ScrollReveal>
+          ))}
+        </div>
       </div>
     </section>
   )
@@ -52,11 +50,15 @@ export function CaseStudies({ onOpenModal }: CaseStudiesProps) {
 
 function StudyImage({ study, imageRight }: { study: (typeof CASE_STUDIES)[0]; imageRight?: boolean }) {
   return (
-    <div className={`overflow-hidden ${imageRight ? 'order-1 lg:order-2' : ''}`}>
+    <div
+      className={`flex items-center justify-center bg-[var(--color-surface)] p-4 md:p-6 ${
+        imageRight ? 'order-1 lg:order-2' : ''
+      }`}
+    >
       <img
         src={study.image}
         alt={`${study.title} Case Study`}
-        className="w-full h-64 lg:h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-1000"
+        className="w-full max-h-40 md:max-h-44 object-contain"
       />
     </div>
   )
@@ -73,47 +75,49 @@ function StudyContent({
 }) {
   return (
     <div
-      className={`p-8 md:p-12 lg:p-16 flex flex-col justify-center ${
+      className={`p-5 md:p-6 lg:p-8 flex flex-col justify-center ${
         imageRight ? 'order-2 lg:order-1' : ''
       }`}
     >
-      <div className="flex items-center gap-3 mb-6">
-        <span className="text-[10px] font-semibold uppercase tracking-widest text-orange-500 px-3 py-1 border border-orange-600/30">
+      <div className="flex items-center gap-3 mb-3 text-sm text-[var(--color-muted)]">
+        <span className="tag !text-[var(--color-accent)] !border-[var(--color-accent)]/30">
           {study.category}
         </span>
-        <span className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500">
-          {study.year}
-        </span>
+        <span>{study.year}</span>
       </div>
-      <h3 className="text-3xl md:text-4xl font-semibold tracking-tight mb-6">{study.title}</h3>
-      <p className="text-neutral-400 leading-relaxed mb-8">{study.description}</p>
-      <div className="grid grid-cols-3 gap-6 mb-8">
-        {study.stats.map((stat) => (
-          <div key={stat.label}>
-            <div className="text-2xl font-light tracking-tighter text-orange-500">{stat.value}</div>
-            <div className="text-[10px] font-semibold uppercase tracking-widest text-neutral-500 mt-1">
-              {stat.label}
+
+      <h3 className="font-serif text-xl md:text-2xl font-bold tracking-tight mb-3 leading-snug">
+        {study.title}
+      </h3>
+
+      <p className="text-sm md:text-base text-[var(--color-ink-secondary)] leading-relaxed mb-4 line-clamp-3">
+        {study.description}
+      </p>
+
+      {study.stats.length > 0 && (
+        <div className="grid grid-cols-3 gap-3 mb-4">
+          {study.stats.map((stat) => (
+            <div key={stat.label}>
+              <div className="font-serif text-lg md:text-xl font-bold text-[var(--color-accent)]">
+                {stat.value}
+              </div>
+              <div className="text-xs text-[var(--color-muted)] mt-0.5">{stat.label}</div>
             </div>
-          </div>
-        ))}
-      </div>
-      <div className="flex flex-wrap gap-2 mb-8">
+          ))}
+        </div>
+      )}
+
+      <div className="flex flex-wrap gap-2 mb-4">
         {study.skills.map((skill) => (
-          <span
-            key={skill}
-            className="text-[10px] font-mono text-neutral-500 border border-neutral-700 px-2 py-1"
-          >
+          <span key={skill} className="tag text-xs">
             {skill}
           </span>
         ))}
       </div>
-      <button
-        type="button"
-        onClick={() => onOpenModal(study.projectId)}
-        className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-orange-500 hover:text-orange-400 transition-colors group/btn"
-      >
-        Read Full Case Study
-        <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+
+      <button type="button" onClick={() => onOpenModal(study.projectId)} className="btn-ghost self-start">
+        Read full case study
+        <ArrowRight size={14} />
       </button>
     </div>
   )
