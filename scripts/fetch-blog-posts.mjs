@@ -21,7 +21,7 @@ const POSTS = [
     tags: ['AI', 'MCP'],
     excerpt:
       'A demo environment behaved differently from production because a Kubernetes CronJob existed only in the production overlay. An AI agent helped trace the CronJob, map stage to the demo environment, and identify the IaC files that needed changing.',
-    author: 'Enrico Teotti',
+    author: 'Jayce Garcia',
     sourceName: 'teotti.com',
   },
   {
@@ -33,7 +33,7 @@ const POSTS = [
     tags: ['strategy', 'AI'],
     excerpt:
       'If you ship LLM features without evals, you are guessing. Good evals need isolated prompts, representative test data, versioned runs, and output artifacts that make results debuggable.',
-    author: 'Enrico Teotti',
+    author: 'Jayce Garcia',
     sourceName: 'teotti.com',
   },
   {
@@ -45,7 +45,7 @@ const POSTS = [
     tags: ['strategy', 'AI', 'MCP'],
     excerpt:
       'A page had a p95 response time of 32 seconds. Using an LLM agent connected to a prod database, Sentry, and Posthog, I diagnosed the root cause, confirmed the feature was barely used, and shipped a fix - dropping p95 to 600ms.',
-    author: 'Enrico Teotti',
+    author: 'Jayce Garcia',
     sourceName: 'teotti.com',
   },
   {
@@ -57,7 +57,7 @@ const POSTS = [
     tags: ['strategy', 'AI', 'MCP'],
     excerpt:
       'Giving AI agents access to your application source code and DB via MCP can enhance software debugging. In 3 minutes I reached a bug root cause in a 15-year-old production app with around 200,000 lines of code.',
-    author: 'Enrico Teotti',
+    author: 'Jayce Garcia',
     sourceName: 'teotti.com',
   },
 ]

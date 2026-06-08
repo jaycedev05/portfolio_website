@@ -11,7 +11,7 @@ excerpt: >-
   A page had a p95 response time of 32 seconds. Using an LLM agent connected to
   a prod database, Sentry, and Posthog, I diagnosed the root cause, confirmed
   the feature was barely used, and shipped a fix - dropping p95 to 600ms.
-author: Enrico Teotti
+author: Jayce Garcia
 sourceUrl: 'https://teotti.com/llm-with-mcps-assessing-application-performance/'
 sourceName: teotti.com
 ---

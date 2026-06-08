@@ -11,7 +11,7 @@ excerpt: >-
   Giving AI agents access to your application source code and DB via MCP can
   enhance software debugging. In 3 minutes I reached a bug root cause in a
   15-year-old production app with around 200,000 lines of code.
-author: Enrico Teotti
+author: Jayce Garcia
 sourceUrl: 'https://teotti.com/simplify-software-debugging-with-llm-mcp-and-source-code/'
 sourceName: teotti.com
 ---

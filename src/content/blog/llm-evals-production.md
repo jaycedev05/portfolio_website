@@ -10,7 +10,7 @@ excerpt: >-
   If you ship LLM features without evals, you are guessing. Good evals need
   isolated prompts, representative test data, versioned runs, and output
   artifacts that make results debuggable.
-author: Enrico Teotti
+author: Jayce Garcia
 sourceUrl: 'https://teotti.com/how-to-build-evals-for-llm-prompts-in-production/'
 sourceName: teotti.com
 ---

@@ -11,7 +11,7 @@ excerpt: >-
   CronJob existed only in the production overlay. An AI agent helped trace the
   CronJob, map stage to the demo environment, and identify the IaC files that
   needed changing.
-author: Enrico Teotti
+author: Jayce Garcia
 sourceUrl: >-
   https://teotti.com/using-an-ai-agent-to-navigate-an-undocumented-kubernetes-repo/
 sourceName: teotti.com
